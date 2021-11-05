@@ -59,7 +59,7 @@ func (query *OpQuery) readFrom(bufr *bufio.Reader) error {
 	if err := q.ReadFrom(bufr); err != nil {
 		return err
 	}
-	query.Query = types.NewDocument(&q)
+	query.Query = types.MustNewDocument(&q)
 
 	if _, err := bufr.Peek(1); err == nil {
 		var r bson.Document
@@ -67,7 +67,7 @@ func (query *OpQuery) readFrom(bufr *bufio.Reader) error {
 			return err
 		}
 
-		tr := types.NewDocument(&r)
+		tr := types.MustNewDocument(&r)
 		query.ReturnFieldsSelector = &tr
 	}
 

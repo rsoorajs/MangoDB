@@ -135,7 +135,7 @@ func (doc *Document) ReadFrom(r *bufio.Reader) error {
 			if err := v.ReadFrom(bufr); err != nil {
 				return lazyerrors.Errorf("bson.Document.ReadFrom (embedded document): %w", err)
 			}
-			doc.m[string(ename)] = types.NewDocument(&v)
+			doc.m[string(ename)] = types.MustNewDocument(&v)
 
 		case tagArray:
 			// TODO check maximum nesting
@@ -401,7 +401,7 @@ func unmarshalJSONValue(data []byte) (interface{}, error) {
 		case v["$k"] != nil:
 			var o Document
 			err = o.UnmarshalJSON(data)
-			res = types.NewDocument(&o)
+			res = types.MustNewDocument(&o)
 		case v["$b"] != nil:
 			var o Binary
 			err = o.UnmarshalJSON(data)

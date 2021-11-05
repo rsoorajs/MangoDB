@@ -62,7 +62,7 @@ func (reply *OpReply) readFrom(bufr *bufio.Reader) error {
 		if err := doc.ReadFrom(bufr); err != nil {
 			return lazyerrors.Errorf("wire.OpReply.ReadFrom: %w", err)
 		}
-		reply.Documents[i] = types.NewDocument(&doc)
+		reply.Documents[i] = types.MustNewDocument(&doc)
 	}
 
 	return nil

@@ -60,7 +60,7 @@ func (msg *OpMsg) readFrom(bufr *bufio.Reader) error {
 				return lazyerrors.Error(err)
 			}
 
-			d := types.NewDocument(&doc)
+			d := types.MustNewDocument(&doc)
 			section.Documents = append(section.Documents, d)
 			msg.Documents = append(msg.Documents, d)
 
@@ -93,7 +93,7 @@ func (msg *OpMsg) readFrom(bufr *bufio.Reader) error {
 					return lazyerrors.Error(err)
 				}
 
-				d := types.NewDocument(&doc)
+				d := types.MustNewDocument(&doc)
 				section.Documents = append(section.Documents, d)
 				msg.Documents = append(msg.Documents, d)
 			}
