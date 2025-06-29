@@ -47,6 +47,13 @@ tasks:
       - go mod verify
       - go generate -x
 
+  init-tools-mcphost:
+    dir: tools/mcphost
+    cmds:
+      - go mod tidy
+      - go mod verify
+      - go generate -x
+
   init-integration:
     dir: integration
     cmds:
@@ -55,7 +62,7 @@ tasks:
 
   init:
     desc: "Install development tools"
-    deps: [init-tools, init-tools-golangci, init-integration]
+    deps: [init-tools, init-tools-golangci, init-tools-mcphost, init-integration]
     cmds:
       - go mod tidy
       - go mod verify
@@ -317,12 +324,20 @@ tasks:
 
   security-trivy:
     cmds:
-      - docker compose run --rm trivy --config=./build/trivy.yml filesystem .
+      - docker compose run --rm trivy --config=./build/trivy.yml filesystem --ignorefile=./build/.trivyignore .
 
   godocs:
     desc: "Serve Go code documentation"
     cmds:
       - bin/pkgsite{{exeExt}} -http=127.0.0.1:6060 -open
+
+  ollama:
+    desc: "Run Ollama server"
+    cmds:
+      - ollama serve
+    env:
+      # for https://ollama.com/library/phi4-mini
+      OLLAMA_CONTEXT_LENGTH: 131072
 
   psql:
     desc: "Run psql"
